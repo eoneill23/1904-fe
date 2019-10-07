@@ -10,7 +10,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch(process.env.REACT_APP_BACKEND_URL)
+    fetch(process.env.REACT_APP_BACKEND_URL + '/')
     .then(res => res.json())
     .then(animals => this.setState({ animals }))
     .catch(err => console.log(err))
@@ -18,7 +18,6 @@ class App extends Component {
 
   render() {
     let animalList;
-    console.log(this.state.animals)
     if (this.state.animals.length) {
       animalList = this.state.animals.map(animal => {
         return (
