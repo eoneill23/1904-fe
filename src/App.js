@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      animals: []
+    }
+  }
+
+  componentDidMount() {
+    fetch(process.env.REACT_APP_BACKEND_URL)
+    .then(res => res.json())
+    .then(animals => this.setState({ animals }))
+    .catch(err => console.log(err))
+  }
+
+  render() {
+    let animalList;
+    console.log(this.state.animals)
+    if (this.state.animals.length) {
+      animalList = this.state.animals.map(animal => {
+        return (
+        <li>
+          <p>{animal.name}</p>
+          <p>{animal.type}</p>
+        </li>
+        )
+      });
+    } else {
+      animalList = <p>Loading...</p>
+    }
+
+    return (
+      <ul>
+        {animalList}
+      </ul>
+    )
+  }
 }
 
 export default App;
